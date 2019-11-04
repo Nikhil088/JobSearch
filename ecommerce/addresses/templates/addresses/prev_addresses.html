@@ -1,0 +1,29 @@
+<style>
+body {
+   
+     /*background: url("static_my_proj/img/beach.jpg") 50% 0 no-repeat fixed;*/
+     color: white;
+     /*height: 650px;
+     padding: 100px 0 0 0;   */
+     }
+   </style>
+{% if address_qs.exists %}
+        <form method='POST' action='{{ action_url }}'> {% csrf_token %}
+             {% if next_url %}
+            <input type='hidden' name='next' value='{{ next_url }}' />
+            {% endif %}
+            {% if address_type %}
+            <input type='hidden' name='address_type' value='{{ address_type }}' />
+            {% endif %}
+
+
+            {% for address in address_qs %}
+                <label for='address-{{ address.id }}'>
+                    <input id='address-{{ address.id }}' type='radio' name='shipping_address' value='{{ address.id }}' />
+                {{ address.address_line_1 }}
+                {{address.country}}
+                </label><br/>
+            {% endfor %}
+            <button type='submit' class='btn btn-success'>Use Address</button>
+        </form>
+{% endif %}
